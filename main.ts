@@ -4,11 +4,13 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`tile4`, function (sprite, loc
         tiles.setCurrentTilemap(tilemap`level3`)
         tiles.placeOnTile(mySprite, tiles.getTileLocation(2, 7))
         info.changeCountdownBy(40)
+        game.splash("Checkpoint Reached!")
     }
     if (Level == 3) {
         tiles.setCurrentTilemap(tilemap`level2`)
         tiles.placeOnTile(mySprite, tiles.getTileLocation(2, 7))
         info.changeCountdownBy(40)
+        game.splash("Checkpoint Reached!")
     }
     if (Level == 4) {
         info.setScore(info.countdown())
@@ -25,6 +27,7 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
 scene.onOverlapTile(SpriteKind.Player, assets.tile`hazardLava1`, function (sprite, location) {
     tiles.placeOnTile(mySprite, tiles.getTileLocation(2, 7))
     music.powerDown.play()
+    game.splash("Ow!")
 })
 controller.right.onEvent(ControllerButtonEvent.Released, function () {
     animation.stopAnimation(animation.AnimationTypes.All, mySprite)
@@ -123,6 +126,9 @@ game.showLongText("The flags are checkpoints but you have a limited amount of ti
 game.showLongText("Race to the finish line to get a high score!", DialogLayout.Full)
 game.showLongText("Good luck!", DialogLayout.Full)
 info.startCountdown(50)
+game.onUpdate(function () {
+	
+})
 game.onUpdateInterval(200, function () {
     if (mySprite.isHittingTile(CollisionDirection.Bottom) && mySprite.vy == 0) {
         if (controller.right.isPressed()) {
