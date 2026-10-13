@@ -27,13 +27,30 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
 scene.onOverlapTile(SpriteKind.Player, assets.tile`hazardLava1`, function (sprite, location) {
     tiles.placeOnTile(mySprite, tiles.getTileLocation(2, 7))
     music.powerDown.play()
-    game.splash("Ow!")
+    deathmsgrandint = randint(1, 6)
+    if (deathmsgrandint == 1) {
+        game.splash("Ow!")
+    } else if (deathmsgrandint == 2) {
+        game.splash("Youch!")
+    } else if (deathmsgrandint == 3) {
+        game.splash("skill issue")
+    } else if (deathmsgrandint == 4) {
+        game.splash("get better.")
+    } else if (deathmsgrandint == 5) {
+        game.splash("WASTED")
+    } else {
+        game.splash("thats just sad")
+    }
 })
 controller.right.onEvent(ControllerButtonEvent.Released, function () {
     animation.stopAnimation(animation.AnimationTypes.All, mySprite)
 })
 controller.left.onEvent(ControllerButtonEvent.Released, function () {
     animation.stopAnimation(animation.AnimationTypes.All, mySprite)
+})
+controller.combos.attachCombo("UUDDLRLRBA", function () {
+    mySprite.vy = 0
+    controller.moveSprite(mySprite)
 })
 scene.onOverlapTile(SpriteKind.Player, sprites.jewels.jewel5, function (sprite, location) {
     tiles.setTileAt(tiles.getTileLocation(52, 8), assets.tile`baseTransparency16`)
@@ -49,6 +66,7 @@ scene.onOverlapTile(SpriteKind.Player, sprites.jewels.jewel5, function (sprite, 
     tiles.setWallAt(tiles.getTileLocation(52, 4), false)
     tiles.setWallAt(tiles.getTileLocation(52, 2), false)
 })
+let deathmsgrandint = 0
 let mySprite: Sprite = null
 let Level = 0
 Level = 1
@@ -126,10 +144,8 @@ game.showLongText("The flags are checkpoints but you have a limited amount of ti
 game.showLongText("Race to the finish line to get a high score!", DialogLayout.Full)
 game.showLongText("Good luck!", DialogLayout.Full)
 info.startCountdown(50)
-game.onUpdate(function () {
-	
-})
-game.onUpdateInterval(200, function () {
+info.setLife(3)
+game.onUpdateInterval(100, function () {
     if (mySprite.isHittingTile(CollisionDirection.Bottom) && mySprite.vy == 0) {
         if (controller.right.isPressed()) {
             animation.runImageAnimation(
